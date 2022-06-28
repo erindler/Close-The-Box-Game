@@ -1,5 +1,10 @@
 import Tile
-#test
-tile1 = Tile.Tile(1)
+tiles = []
 
-print(tile1.get_tileNum())
+#Creates Tile Objects
+for i in range(1, 10): #Currently Set at 9 tiles, Subject to change?
+    i = Tile.Tile(i)
+    tiles.append(i)
+
+for i in range(9):
+    print(tiles[i].get_tileNum())
