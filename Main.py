@@ -1,10 +1,15 @@
 import Tile
-tiles = []
+import Func
 
 #Creates Tile Objects
-for i in range(1, 10): #Currently Set at 9 tiles, Subject to change?
-    i = Tile.Tile(i)
-    tiles.append(i)
+def CreateTileObjs(numTiles = 9):
+    tiles = []
+    for i in range(1, numTiles + 1):
+        i = Tile.Tile(i)
+        tiles.append(i)
+    return tiles
 
-for i in range(9):
+tiles = CreateTileObjs(10)
+
+for i in range(len(tiles)):
     print(tiles[i].get_tileNum())

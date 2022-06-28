@@ -1,0 +1,2 @@
+class Func():
+    pass
