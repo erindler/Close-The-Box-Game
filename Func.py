@@ -4,8 +4,31 @@ import os
 import pygame
 import Main
 
+#Constants
+WIDTH = 960
+HEIGHT = 540
+FPS = 60
+
+
+#Image
+BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pokerCarpet.jpg")), (WIDTH, HEIGHT))
+
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+#Start Screen - will provide the number of tiles in the game
+def start_screen():
+    pass
+
+
+
+    #return numTiles
+
+#Display Window
+def draw_window():
+    WIN.blit(BACKGROUND, (0, 0))
+
 #Creates Tile Objects
-def CreateTileObjs(numTiles = 9):
+def create_tile_objs(numTiles = 9):
     tiles = []
     for i in range(1, numTiles + 1):
         i = Tile.Tile(i)
@@ -36,20 +59,35 @@ RDICE6 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Rotati
 RDICE = [RDICE1, RDICE2, RDICE3, RDICE4, RDICE5, RDICE6]
 
 #Displays Dice Roll and Generates Values
-def TwodiceRoll():
+def two_dice_roll():
     dice1Value = random.randint(1, 6)
     dice2Value = random.randint(1, 6)
 
     for dice in RDICE:
-        Main.WIN.blit(Main.BACKGROUND, (0, 0))
-        Main.WIN.blit(dice, (Main.WIDTH/2 - DICESIZE - 25, Main.HEIGHT/2 - 5))
-        Main.WIN.blit(dice, (Main.WIDTH/2 + 15, Main.HEIGHT/2 - 5))
+        WIN.blit(BACKGROUND, (0, 0))
+        WIN.blit(dice, (WIDTH/2 - DICESIZE - 25, HEIGHT/2 - 5))
+        WIN.blit(dice, (WIDTH/2 + 15, HEIGHT/2 - 5))
         pygame.display.update()
         pygame.time.delay(100)
 
-    Main.WIN.blit(Main.BACKGROUND, (0, 0))
-    Main.WIN.blit(DICE[dice1Value - 1], (Main.WIDTH/2 - DICESIZE - 20, Main.HEIGHT/2))
-    Main.WIN.blit(DICE[dice2Value - 1], (Main.WIDTH/2 + 20, Main.HEIGHT/2))
+    WIN.blit(BACKGROUND, (0, 0))
+    WIN.blit(DICE[dice1Value - 1], (WIDTH/2 - DICESIZE - 20, HEIGHT/2))
+    WIN.blit(DICE[dice2Value - 1], (WIDTH/2 + 20, HEIGHT/2))
     pygame.display.update()
     pygame.time.delay(1000)
     return dice1Value, dice2Value
+
+def one_dice_roll():
+    dice1Value = random.randint(1, 6)
+
+    for dice in RDICE:
+        WIN.blit(BACKGROUND, (0, 0))
+        WIN.blit(dice, (WIDTH/2 - DICESIZE/2 - 5, HEIGHT/2 - 5))
+        pygame.display.update()
+        pygame.time.delay(100)
+
+    WIN.blit(BACKGROUND, (0, 0))
+    WIN.blit(DICE[dice1Value - 1], (WIDTH/2 - DICESIZE/2, HEIGHT/2))
+    pygame.display.update()
+    pygame.time.delay(1000)
+    return dice1Value
