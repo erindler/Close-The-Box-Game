@@ -4,21 +4,47 @@ import os
 import pygame
 import Main
 
+pygame.font.init()
+
 #Constants
 WIDTH = 960
 HEIGHT = 540
 FPS = 60
 
+#colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+HOTPINK = (255, 0, 127)
+DARKBLUE = (0, 0, 139)
 
 #Image
 BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pokerCarpet.jpg")), (WIDTH, HEIGHT))
+
+#Start Screen
+numselection = 9
+BLACKBACKGROUND = pygame.Rect(WIDTH, 10, 50, HEIGHT)
+STARTBUTTON = pygame.Rect(WIDTH/2 - 285, HEIGHT/2 - 25, 415, 125)
+NUMBUTTON = pygame.Rect(WIDTH/2 + 165, HEIGHT/2 - 25, 125, 125)
+STARTSCREENFONT = pygame.font.SysFont("impact", 100)
+STARTSCREENTEXT = STARTSCREENFONT.render("CLOSE THE BOX", 1, WHITE)
+BUTTONFONT = pygame.font.SysFont("impact", 80)
+STARTBUTTONTEXT = BUTTONFONT.render("START", 1, BLACK)
+NUMBUTTONTEXT = BUTTONFONT.render(str(numselection), 1, WHITE)
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 #Start Screen - will provide the number of tiles in the game
 def start_screen():
-    pass
-
+    pygame.draw.rect(WIN, BLACK, BLACKBACKGROUND)
+    pygame.draw.rect(WIN, HOTPINK, STARTBUTTON)
+    pygame.draw.rect(WIN, DARKBLUE, NUMBUTTON)
+    WIN.blit(STARTSCREENTEXT, (WIDTH/2 - STARTSCREENTEXT.get_width()/2, 100))
+    WIN.blit(STARTBUTTONTEXT, (WIDTH/2 - 177.5, HEIGHT/2 - 12.5))
+    WIN.blit(NUMBUTTONTEXT, (705 - NUMBUTTONTEXT.get_width()/2, HEIGHT/2 - 12.5))
+    pygame.display.update()
+    pygame.time.delay(5000)
 
 
     #return numTiles
