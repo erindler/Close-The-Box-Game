@@ -23,7 +23,7 @@ DARKBLUE = (0, 0, 139)
 BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "pokerCarpet.jpg")), (WIDTH, HEIGHT))
 
 #Start Screen
-numselection = 9
+tilenums = [9, 10, 11, 12]
 BLACKBACKGROUND = pygame.Rect(WIDTH, 10, 50, HEIGHT)
 STARTBUTTON = pygame.Rect(WIDTH/2 - 285, HEIGHT/2 - 25, 415, 125)
 NUMBUTTON = pygame.Rect(WIDTH/2 + 165, HEIGHT/2 - 25, 125, 125)
@@ -31,23 +31,40 @@ STARTSCREENFONT = pygame.font.SysFont("impact", 100)
 STARTSCREENTEXT = STARTSCREENFONT.render("CLOSE THE BOX", 1, WHITE)
 BUTTONFONT = pygame.font.SysFont("impact", 80)
 STARTBUTTONTEXT = BUTTONFONT.render("START", 1, BLACK)
-NUMBUTTONTEXT = BUTTONFONT.render(str(numselection), 1, WHITE)
+
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
+numbuttontext = BUTTONFONT.render(str(tilenums[0]), 1, WHITE)
+pygame.draw.rect(WIN, BLACK, BLACKBACKGROUND)
+pygame.draw.rect(WIN, HOTPINK, STARTBUTTON)
+pygame.draw.rect(WIN, DARKBLUE, NUMBUTTON)
+WIN.blit(STARTSCREENTEXT, (WIDTH/2 - STARTSCREENTEXT.get_width()/2, 100))
+WIN.blit(STARTBUTTONTEXT, (WIDTH/2 - 177.5, HEIGHT/2 - 12.5))
+WIN.blit(numbuttontext, (705 - numbuttontext.get_width()/2, HEIGHT/2 - 12.5))
+pygame.display.update()
+
 #Start Screen - will provide the number of tiles in the game
-def start_screen():
-    pygame.draw.rect(WIN, BLACK, BLACKBACKGROUND)
-    pygame.draw.rect(WIN, HOTPINK, STARTBUTTON)
-    pygame.draw.rect(WIN, DARKBLUE, NUMBUTTON)
-    WIN.blit(STARTSCREENTEXT, (WIDTH/2 - STARTSCREENTEXT.get_width()/2, 100))
-    WIN.blit(STARTBUTTONTEXT, (WIDTH/2 - 177.5, HEIGHT/2 - 12.5))
-    WIN.blit(NUMBUTTONTEXT, (705 - NUMBUTTONTEXT.get_width()/2, HEIGHT/2 - 12.5))
-    pygame.display.update()
-    pygame.time.delay(5000)
+def start_screen(numselectionindex, NUMBUTTON, STARTBUTTON, WIN):
+    run = True
+    while(run):
+        numbuttontext = BUTTONFONT.render(str(tilenums[numselectionindex]), 1, WHITE)
+        pygame.draw.rect(WIN, DARKBLUE, NUMBUTTON)
+        WIN.blit(numbuttontext, (705 - numbuttontext.get_width()/2, HEIGHT/2 - 12.5))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print("hi")
+                mouseposition = pygame.mouse.get_pos()
+                if NUMBUTTON.collidepoint(mouseposition[0], mouseposition[1]) == True:
+                    if numselectionindex < 3:
+                        numselectionindex += 1
+                    else:
+                        numselectionindex = 0
+                if STARTBUTTON.collidepoint(mouseposition[0], mouseposition[1]) == True:
+                    run = False
+                    return tilenums[numselectionindex]
 
-
-    #return numTiles
 
 #Display Window
 def draw_window():

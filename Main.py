@@ -8,7 +8,7 @@ pygame.mixer.init()
 pygame.display.set_caption("Close the Box Game")
 
 def main():
-    numTiles = Func.start_screen()
+    numTiles = Func.start_screen(0, Func.NUMBUTTON, Func.STARTBUTTON, Func.WIN)
     clock = pygame.time.Clock()
     run = True
     while run:
