@@ -1,3 +1,4 @@
+from json.encoder import ESCAPE
 import Func
 import os
 import pygame
@@ -11,11 +12,14 @@ def main():
     numTiles = Func.start_screen(0, Func.NUMBUTTON, Func.STARTBUTTON, Func.WIN)
     clock = pygame.time.Clock()
     run = True
+    tiles = Func.create_tile_objs(Func.calc_tile_width(numTiles), Func.TILEHEIGHT, numTiles)
+    print(Func.calc_tile_width(numTiles))
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
+        
         Func.draw_window()
         pygame.display.update()
 

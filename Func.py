@@ -54,7 +54,6 @@ def start_screen(numselectionindex, NUMBUTTON, STARTBUTTON, WIN):
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print("hi")
                 mouseposition = pygame.mouse.get_pos()
                 if NUMBUTTON.collidepoint(mouseposition[0], mouseposition[1]) == True:
                     if numselectionindex < 3:
@@ -71,12 +70,18 @@ def draw_window():
     WIN.blit(BACKGROUND, (0, 0))
 
 #Creates Tile Objects
-def create_tile_objs(numTiles = 9):
+def create_tile_objs(tileWidth, TILEHEIGHT, numTiles = 9):
     tiles = []
     for i in range(1, numTiles + 1):
-        i = Tile.Tile(i)
+        i = Tile.Tile(i, tileWidth, TILEHEIGHT)
         tiles.append(i)
     return tiles
+
+#Calculates the width of the tiles based on the number of tiles in the game
+def calc_tile_width(numTiles):
+    return WIDTH // numTiles
+
+TILEHEIGHT = 100
 
 #Dice roll stuff
 DICESIZE = 75
