@@ -13,14 +13,19 @@ def main():
     clock = pygame.time.Clock()
     run = True
     tiles = Func.create_tile_objs(Func.calc_tile_width(numTiles), Func.TILEHEIGHT, numTiles)
+    oneDiceRoll = False
+    diceVal = [1, 1]
+    turnFinished = True
     print(Func.calc_tile_width(numTiles))
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-        
-        Func.draw_window()
+            if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pos()[1] > 100 and turnFinished:
+                 diceVal = Func.two_dice_roll(tiles)
+        Func.draw_window(tiles)
+        Func.draw_dice(oneDiceRoll, diceVal)
         pygame.display.update()
 
 if __name__ == "__main__":

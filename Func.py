@@ -64,11 +64,6 @@ def start_screen(numselectionindex, NUMBUTTON, STARTBUTTON, WIN):
                     run = False
                     return tilenums[numselectionindex]
 
-
-#Display Window
-def draw_window():
-    WIN.blit(BACKGROUND, (0, 0))
-
 #Creates Tile Objects
 def create_tile_objs(tileWidth, TILEHEIGHT, numTiles = 9):
     tiles = []
@@ -107,35 +102,51 @@ RDICE6 = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Rotati
 RDICE = [RDICE1, RDICE2, RDICE3, RDICE4, RDICE5, RDICE6]
 
 #Displays Dice Roll and Generates Values
-def two_dice_roll():
+def two_dice_roll(tiles):
     dice1Value = random.randint(1, 6)
     dice2Value = random.randint(1, 6)
 
     for dice in RDICE:
-        WIN.blit(BACKGROUND, (0, 0))
+        draw_window(tiles)
         WIN.blit(dice, (WIDTH/2 - DICESIZE - 25, HEIGHT/2 - 5))
         WIN.blit(dice, (WIDTH/2 + 15, HEIGHT/2 - 5))
         pygame.display.update()
         pygame.time.delay(100)
 
-    WIN.blit(BACKGROUND, (0, 0))
+    draw_window(tiles)
     WIN.blit(DICE[dice1Value - 1], (WIDTH/2 - DICESIZE - 20, HEIGHT/2))
     WIN.blit(DICE[dice2Value - 1], (WIDTH/2 + 20, HEIGHT/2))
     pygame.display.update()
     pygame.time.delay(1000)
-    return dice1Value, dice2Value
+    return [dice1Value, dice2Value]
 
-def one_dice_roll():
+def one_dice_roll(tiles):
     dice1Value = random.randint(1, 6)
 
     for dice in RDICE:
-        WIN.blit(BACKGROUND, (0, 0))
         WIN.blit(dice, (WIDTH/2 - DICESIZE/2 - 5, HEIGHT/2 - 5))
         pygame.display.update()
         pygame.time.delay(100)
 
-    WIN.blit(BACKGROUND, (0, 0))
+    draw_window(tiles)
     WIN.blit(DICE[dice1Value - 1], (WIDTH/2 - DICESIZE/2, HEIGHT/2))
     pygame.display.update()
     pygame.time.delay(1000)
-    return dice1Value
+    return [dice1Value]
+
+
+#Display Window
+def draw_window(tiles):
+    WIN.blit(BACKGROUND, (0, 0))
+    counter = 0
+    for tile in tiles:
+        TILE = pygame.transform.scale(pygame.image.load(tile.pic), (tile.tileWidth, tile.tileHeight))
+        WIN.blit(TILE, (tile.tileWidth * counter, 0))
+        counter += 1
+
+def draw_dice(oneDiceRoll, diceVal):
+    if oneDiceRoll == True:
+        WIN.blit(DICE[diceVal[0] - 1], (WIDTH/2 - DICESIZE/2, HEIGHT/2))
+    else:
+        WIN.blit(DICE[diceVal[0] - 1], (WIDTH/2 - DICESIZE - 20, HEIGHT/2))
+        WIN.blit(DICE[diceVal[1] - 1], (WIDTH/2 + 20, HEIGHT/2))

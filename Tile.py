@@ -5,7 +5,7 @@ class Tile():
         self.tileNum = tileNum
         self.tileWidth = tileWidth
         self.tileHeight = TILEHEIGHT
-        self.url = os.path.join("Assets", "Tile" + tileNum + ".jpg")
+        self.pic = os.path.join("Assets", "Tile" + str(tileNum) + ".jpg")
         self.open = True
 
     def close_tile(self):
