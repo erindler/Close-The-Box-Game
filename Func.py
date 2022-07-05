@@ -72,10 +72,10 @@ def create_tile_objs(tileWidth, TILEHEIGHT, numTiles = 9):
     for i in range(1, numTiles + 1):
         i = Tile.Tile(i, tileWidth, TILEHEIGHT)
         tiles.append(i)
-        counter += 1
     for j in range(numTiles):
         j = pygame.Rect(tileWidth * counter, 0, tileWidth, TILEHEIGHT)
         tilerects.append(j)
+        counter += 1
     return tiles, tilerects
 
 #Calculates the width of the tiles based on the number of tiles in the game
@@ -140,10 +140,68 @@ def one_dice_roll(tiles, tilerects):
     pygame.time.delay(1000)
     return [dice1Value]
 
+#gets sum of diceVal
+def get_sum(diceVal):
+    sum = 0
+    for value in diceVal:
+        sum += value
+    return sum
+
+#gets all possible additions of the tiles still up
+def possible_solutions(arr, n, sum, currindex, s):
+    if (currindex > n):
+        return 
+ 
+    if (currindex == n):
+        s.add(sum)
+        return 
+ 
+    possible_solutions(arr, n, sum + arr[currindex].tileNum, currindex+1, s)
+    possible_solutions(arr, n, sum, currindex+1, s)
+
+def check_doubles(diceVal, tiles):
+    uptiles = []
+    for tile in tiles:
+        if tile.open == True:
+            uptiles.append(tile)
+    if len(diceVal) == 2:
+        for tile in uptiles:
+            if diceVal[0] == diceVal[1] and diceVal[0] == tile.tileNum:
+                return True
+    return False
+
 #Check Values Computation
 def check_val(tiles, diceVal):
-    pass
+    uptiles = []
+    for tile in tiles:
+        if tile.open == True:
+            uptiles.append(tile)
+    s = set()
+    possible_solutions(uptiles, len(uptiles), 0, 0, s)
+    if get_sum(diceVal) in s or check_doubles(diceVal, tiles):
+        return True
+    else:
+        return False
 
+#Checks whether the tiles selected goes over the value selected
+def check_num(turntiles, diceVal):
+    sum = 0
+    for tile in turntiles:
+        sum += tile.tileNum
+    if sum > get_sum(diceVal):
+        return False
+    else:
+        return True
+
+#Checks whether the tiles selected equals the value rolled
+def check_turn(turntiles, diceVal):
+    sum = 0
+    for tile in turntiles:
+        sum += tile.tileNum
+    if sum == get_sum(diceVal):
+        return True
+    else:
+        return False
 
 #Display Window
 def draw_window(tiles, tilerects):
@@ -152,8 +210,9 @@ def draw_window(tiles, tilerects):
     for tile in tilerects:
         pygame.draw.rect(WIN, BLACK, tile)
     for tile in tiles:
-        TILE = pygame.transform.scale(pygame.image.load(tile.pic), (tile.tileWidth, tile.tileHeight))
-        WIN.blit(TILE, (tile.tileWidth * counter, 0))
+        if tile.open == True:
+            TILE = pygame.transform.scale(pygame.image.load(tile.pic), (tile.tileWidth, tile.tileHeight))
+            WIN.blit(TILE, (tile.tileWidth * counter, 0))
         counter += 1
 
 def draw_dice(oneDiceRoll, diceVal):
