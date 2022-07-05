@@ -43,12 +43,17 @@ def main():
                 turnFinished = True
                 diceRolled = False
                 turntiles = []
-                diceVal = [1, 1]
                 numselected = False
+            if len(turntiles) == 1:
+                if Func.check_doubles(diceVal, tiles) and turntiles[0] == diceVal[0]: #Checks for doubles rule
+                    turnFinished = True
+                    diceRolled = False
+                    turntiles = []
+                    numselected = False
         else:
             for tile in turntiles:
                 tile.open == True
-                turntiles = []
+            turntiles = []
             numselected = False
         if Func.check_val(tiles, diceVal) == False and numselected == False and turnFinished == False: #Tests for whether the game can continue based on dice value rolled
             run = False
