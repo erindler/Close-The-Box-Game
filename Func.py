@@ -24,7 +24,7 @@ BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "po
 
 #Start Screen
 tilenums = [9, 10, 11, 12]
-BLACKBACKGROUND = pygame.Rect(WIDTH, 10, 50, HEIGHT)
+BLACKBACKGROUND = pygame.Rect(0, 0, WIDTH, HEIGHT)
 STARTBUTTON = pygame.Rect(WIDTH/2 - 285, HEIGHT/2 - 25, 415, 125)
 NUMBUTTON = pygame.Rect(WIDTH/2 + 165, HEIGHT/2 - 25, 125, 125)
 STARTSCREENFONT = pygame.font.SysFont("impact", 100)
@@ -35,24 +35,26 @@ STARTBUTTONTEXT = BUTTONFONT.render("START", 1, BLACK)
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
-numbuttontext = BUTTONFONT.render(str(tilenums[0]), 1, WHITE)
-pygame.draw.rect(WIN, BLACK, BLACKBACKGROUND)
-pygame.draw.rect(WIN, HOTPINK, STARTBUTTON)
-pygame.draw.rect(WIN, DARKBLUE, NUMBUTTON)
-WIN.blit(STARTSCREENTEXT, (WIDTH/2 - STARTSCREENTEXT.get_width()/2, 100))
-WIN.blit(STARTBUTTONTEXT, (WIDTH/2 - 177.5, HEIGHT/2 - 12.5))
-WIN.blit(numbuttontext, (705 - numbuttontext.get_width()/2, HEIGHT/2 - 12.5))
-pygame.display.update()
 
 #Start Screen - will provide the number of tiles in the game
-def start_screen(numselectionindex, NUMBUTTON, STARTBUTTON, WIN):
+def start_screen(numselectionindex):
     run = True
+    numbuttontext = BUTTONFONT.render(str(tilenums[0]), 1, WHITE)
+    pygame.draw.rect(WIN, BLACK, BLACKBACKGROUND)
+    pygame.draw.rect(WIN, HOTPINK, STARTBUTTON)
+    pygame.draw.rect(WIN, DARKBLUE, NUMBUTTON)
+    WIN.blit(STARTSCREENTEXT, (WIDTH/2 - STARTSCREENTEXT.get_width()/2, 100))
+    WIN.blit(STARTBUTTONTEXT, (WIDTH/2 - 177.5, HEIGHT/2 - 12.5))
+    WIN.blit(numbuttontext, (705 - numbuttontext.get_width()/2, HEIGHT/2 - 12.5))
+    pygame.display.update()
     while(run):
         numbuttontext = BUTTONFONT.render(str(tilenums[numselectionindex]), 1, WHITE)
         pygame.draw.rect(WIN, DARKBLUE, NUMBUTTON)
         WIN.blit(numbuttontext, (705 - numbuttontext.get_width()/2, HEIGHT/2 - 12.5))
         pygame.display.update()
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseposition = pygame.mouse.get_pos()
                 if NUMBUTTON.collidepoint(mouseposition[0], mouseposition[1]) == True:
@@ -221,3 +223,17 @@ def draw_dice(oneDiceRoll, diceVal):
     else:
         WIN.blit(DICE[diceVal[0] - 1], (WIDTH/2 - DICESIZE - 20, HEIGHT/2))
         WIN.blit(DICE[diceVal[1] - 1], (WIDTH/2 + 20, HEIGHT/2))
+
+#displays win effect
+def win_effect():
+    wintext = BUTTONFONT.render("CONGRATS! YOU WIN!", 1, WHITE)
+    WIN.blit(wintext, (WIDTH/2 - wintext.get_width()/2, HEIGHT/2 - wintext.get_height()/2 - 75)) 
+    pygame.display.update()
+    pygame.time.delay(2500)
+
+#displays lose effect
+def lose_effect():
+    losetext = BUTTONFONT.render("SORRY YOU LOST.", 1, WHITE)
+    WIN.blit(losetext, (WIDTH/2 - losetext.get_width()/2, HEIGHT/2 - losetext.get_height()/2 - 75))
+    pygame.display.update()
+    pygame.time.delay(2500)
